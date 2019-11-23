@@ -4,8 +4,9 @@ var axios = require('axios');
 var keys = require("./keys.js");
 var fs = require('fs');
 var Spotify = require('node-spotify-api');
-var dotenv = require('dotenv');
+require("dotenv").config();
 var moment = require('moment');
+
 
 
 function prompts() {
@@ -43,13 +44,21 @@ function prompts() {
                     }]).then(answers => {
                         console.log(answers.name);
                         song = answers.name;
-                        var spotify = new Spotify(keys.spotify);
-                        spotify.search({ type: 'track', query: song }, function (err, data) {
-                            if (err) {
-                                return console.log('Error occurred: ' + err);
-                            }
-                            console.log(data.tracks.items);
+                        console.log(song);
+                        console.log(keys.spotify);
+                        var Spotify = require('node-spotify-api');
+                        var spotify = new Spotify({
+                            id: d38be1c4191644bea97e5be0c525dec1,
+                            secret: f05bf4c83c1b4870a4632780d68ec7cd
                         });
+                        spotify
+                            .search({ type: 'track', query: song })
+                            .then(function (response) {
+                                console.log(response);
+                            })
+                            .catch(function (err) {
+                                console.log(err);
+                            });
                     });
                 };
                 if (answers.type == 'artist') {
